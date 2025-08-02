@@ -35,3 +35,40 @@ def insertion_sort(l):
             c-=1
         l[c]=t
     return l
+def counting_sort(l):
+    d=[i for i in range(max(l)+1)]
+    for i in l:
+        d[i]+=1
+    l=[]
+    for i in range(len(d)):
+        l+=[i]*d[i]
+    return l
+
+
+def comb_sort(l,s):
+    n=len(l)
+    gap=n
+    while True:
+        gap= int(gap//s) if gap//s>1 else 1
+        c=0 if gap==1 else 1
+        for i in range(n-gap):
+            if l[i]>l[i+gap]:
+                l[i],l[i+gap]=l[i+gap],l[i]
+                c+=1
+        if c==0:
+            break
+    return l
+def main():
+    import sys
+    input = sys.stdin.readline
+    write = sys.stdout.write
+    
+    n = int(input())
+    l=[0]*n
+    for i in range(n):
+        l[i]=int(input())
+    l=comb_sort(l,1.3)
+    for i in l:
+        write(str(i))
+        write('\n')
+
