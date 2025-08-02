@@ -1,65 +1,75 @@
 class Heap:
-    def __init__(self,key=None,data=None):
-        self.data=[float('inf')]
-        self.len=0
+    def __init__(self, key=None, length=999999, data=None):
+        self.data = [2**32] + [float('-inf')] * (length - 1)
+        self.len = 0
+        self.size=length
         if key is None:
-            key= lambda x,y: True if x>y else False
-        self.key=key
+            key = lambda x, y: x > y
+        self.key = key
         if data is not None:
             for i in data:
                 self.insert(i)
+
     def __len__(self):
         return self.len
-    def insert(self,d):
-        if d in self.data:
-            return
-        self.len+=1
-        self.data.append(d)
+
+    def insert(self, d):
+        if self.len + 1 >= self.size:
+            self.data.append(0)
+            self.size+=1
+        self.len += 1
+        self.data[self.len] = d
         self.up(self.len)
 
-
-    def up(self,l):
-        if self.key(self.data[l],self.data[(l//2)]):
-            self.data[l//2],self.data[l]=self.data[l],self.data[l//2]
-            self.up(l//2)
-        else:
-            return
+    def up(self, l):
+        while l > 1 and self.key(self.data[l], self.data[l // 2]):
+            self.data[l], self.data[l // 2] = self.data[l // 2], self.data[l]
+            l = l // 2
 
     def delete(self):
-        self.data[1]=float('-inf')
+        if self.len == 0:
+            return
+        self.data[1] = self.data[self.len]
+        self.len -= 1
         self.down(1)
 
+    def down(self, i):
+        while 2 * i <= self.len:
+            left = 2 * i
+            right = 2 * i + 1
+            larger = left
 
-    def down(self,i):
-        if 2*i+1<=self.len:
-            if self.key(self.data[2*i],self.data[2*i+1]):
-                self.data[i], self.data[2 * i] = self.data[2 * i], self.data[i]
-                self.down(2*i)
+            if right <= self.len and self.key(self.data[right], self.data[left]):
+                larger = right
+
+            if self.key(self.data[larger], self.data[i]):
+                self.data[i], self.data[larger] = self.data[larger], self.data[i]
+                i = larger
             else:
-                self.data[i], self.data[2 * i+1] = self.data[2 * i+1], self.data[i]
-                self.down(2*i+1)
-        elif 2*i<=self.len:
-            self.data[i],self.data[2*i]=self.data[2*i],self.data[i]
-            self.down(2*i)
-        else:
-            return
+                break
 
     def max(self):
-        if self.len>0:
-            return self.data[1] if self.data[1]!=float('-inf') else 0
-        return 0
+        return self.data[1] if self.len > 0 else 0
+
     def pop(self):
-        t=self.max()
-        if self.len>0:
+        if self.len == 0: return 0
+        t = self.max()
+        if self.len > 0:
             self.delete()
         return t
+
     def __str__(self):
-        return str(self.data)
+        return str(self.data[1:self.len + 1])
 
+import sys
+input = sys.stdin.readline
+write = sys.stdout.write
 
-n=int(input())
-h=Heap()
+n = int(input())
+h = Heap()
 for i in range(n):
-    t=int(input())
-    if t>0: h.insert(t)
-    else: print(h.pop())
+    t = int(input())
+    if t > 0:
+        h.insert(t)
+    else:
+        write(str(h.pop())+'\n')
