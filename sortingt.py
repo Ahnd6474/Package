@@ -7,11 +7,6 @@ def hp_sort(l:[]):
     h=Heap(data=l, key = lambda x, y: x<y)
     for i in range(len(l)):
         write(str(h.pop())+'\n')
-n = int(input())
-l=[0]*n
-for i in range(n):
-    l[i]=int(input())
-hp_sort(l)
 
 def selection_sort(l,ret=False):
     n=len(l)
@@ -22,16 +17,11 @@ def selection_sort(l,ret=False):
         l[i],l[min]=l[min],l[i]
     return l
 
-import sys
-input = sys.stdin.readline
-write = sys.stdout.write
-
-n = int(input())
-l=[0]*n
-for i in range(n):
-    l[i]=int(input())
-l=selection_sort(l)
-for i in l:
-    write(str(i))
-    write('\n')
+def bubble_sort(l):
+    n=len(l)
+    for i in range(n):
+        for j in range(n-1-i):
+            if l[j+1]<l[j]:
+                l[j+1],l[j]=l[j],l[j+1]
+    return l
 
