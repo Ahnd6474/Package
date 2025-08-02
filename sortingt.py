@@ -25,3 +25,13 @@ def bubble_sort(l):
                 l[j+1],l[j]=l[j],l[j+1]
     return l
 
+def insertion_sort(l):
+    n=len(l)
+    for i in range(n):
+        t=l[i]
+        c=i
+        while c>0 and l[c-1]>=t:
+            l[c]=l[c-1]
+            c-=1
+        l[c]=t
+    return l
