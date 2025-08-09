@@ -78,6 +78,22 @@ def merge_sort(l):
             r+=1
     l+= l1[r:]+l2[p:]
     return l
+    
+def quick_sort(l):
+    n = len(l)
+    if n <= 1:
+        return l  # base case
+    piv = l[0]
+    r, p = 1, n - 1
+    while r <= p:
+        while r <= p and l[r] < piv:
+            r += 1
+        while r <= p and l[p] >= piv:
+            p -= 1
+        if r < p:
+            l[r], l[p] = l[p], l[r]
+    l[0], l[p] = l[p], l[0]
+    return quick_sort(l[:p]) + [l[p]] + quick_sort(l[p+1:])
 
 
 def main():
