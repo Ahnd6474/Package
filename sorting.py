@@ -58,6 +58,28 @@ def comb_sort(l,s):
         if c==0:
             break
     return l
+
+def merge_sort(l):
+    n=len(l)
+    m=n//2
+    if m<=0:
+        return l
+    l1=merge_sort(l[:m])
+    l2=merge_sort(l[m:])
+    n1,n2=len(l1),len(l2)
+    r,p=0,0
+    l=[]
+    while r<n1 and p<n2:
+        if l1[r]>l2[p]:
+            l.append(l2[p])
+            p+=1
+        else:
+            l.append(l1[r])
+            r+=1
+    l+= l1[r:]+l2[p:]
+    return l
+
+
 def main():
     import sys
     input = sys.stdin.readline
