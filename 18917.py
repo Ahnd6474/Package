@@ -53,6 +53,9 @@ def permutation(n,m):
     if n<m:
         return False
     return int(factorial(n)/factorial(n-m))
+import sys
+input = sys.stdin.readline
+write = sys.stdout.write
 s = 0
 x = 0
 def classify(q,target=None):
@@ -78,5 +81,5 @@ for i in range(n):
         m,k=map(int,m.split())
         classify(m,k)
     else:
-        print(classify(int(m)))
+        write(str(classify(int(m)))+'\n')
 
