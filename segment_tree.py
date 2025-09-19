@@ -17,5 +17,5 @@ class SegmentTree:
             tree[i]=self.key(tree[2*i],tree[2*i+1])
         return tree
 
-
+    
 
